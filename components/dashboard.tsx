@@ -1,13 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { LayoutDashboard, BarChart2, PieChart, FileText, Settings, ChevronLeft, Activity, Target, MapPin, Sparkles } from "lucide-react"
+import { LayoutDashboard, BarChart2, PieChart, FileText, Settings, ChevronLeft, Activity, Target, MapPin, Sparkles, Award } from "lucide-react"
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
 import { ProgramProgress } from "./ProgramProgress"
 import { LiveUpdates } from "./LiveUpdates"
-import { ProgramOverview } from "./ProgramOverview"
-import { District } from "@/components/District"
+import { HighPerformingSchoolsTeachers } from "@/components/HighPerformingSchoolsTeachers"
 import { ReportGenerator } from "./ReportGenerator"
 import { ProgramGoalsCoverage } from "./ProgramGoalsCoverage"
 import { Calendar } from "./ui/calendar"
@@ -31,9 +30,9 @@ export default function Dashboard() {
         <div className="flex items-center space-x-24">
           <div className="flex items-center gap-3">
             <img 
-              src="https://dmdashboard.samparksmartshala.org/static/media/logo-black.03df822f383fee06ef8e6e4fb67324de.svg" 
+              src="https://22527425.fs1.hubspotusercontent-na1.net/hubfs/22527425/Frame%2050.png" 
               alt="Partner Logo" 
-              className="h-40 w-40 hover:opacity-80 transition-opacity duration-300" 
+              className="h-12 w-auto hover:opacity-80 transition-opacity duration-300" 
             />
           </div>
           
@@ -103,27 +102,17 @@ export default function Dashboard() {
                   </a>
                   <a
                     href="#"
-                    onClick={() => setCurrentView("overview")}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-all hover:bg-gradient-to-r hover:from-orange-50 hover:to-slate-100 hover:text-orange-600 ${
-                      currentView === "overview" ? "bg-gradient-to-r from-orange-50 to-slate-100 text-orange-600 font-medium" : ""
-                    }`}
-                  >
-                    <PieChart className="h-5 w-5" />
-                    <span className={cn("transition-opacity duration-300",
-                      isSidebarCollapsed ? "opacity-0" : "opacity-100"
-                    )}>Program Overview</span>
-                  </a>
-                  <a
-                    href="#"
                     onClick={() => setCurrentView("district")}
                     className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-all hover:bg-gradient-to-r hover:from-orange-50 hover:to-slate-100 hover:text-orange-600 ${
                       currentView === "district" ? "bg-gradient-to-r from-orange-50 to-slate-100 text-orange-600 font-medium" : ""
                     }`}
                   >
-                    <BarChart2 className="h-5 w-5" />
+                    <div className="flex items-center justify-center w-5 h-5">
+                      <Award className="h-6 w-6" strokeWidth={2} />
+                    </div>
                     <span className={cn("transition-opacity duration-300",
                       isSidebarCollapsed ? "opacity-0" : "opacity-100"
-                    )}>District</span>
+                    )}>High Performing Schools & Teachers</span>
                   </a>
                   <a
                     href="#"
@@ -151,11 +140,11 @@ export default function Dashboard() {
                   </a>
                 </div>
                 <div className="mt-auto flex-shrink-0">
-                  <div className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600">
-                    <LayoutDashboard className="h-5 w-5 text-orange-500" />
-                    <span className={cn("transition-opacity duration-300 font-medium",
+                  <div className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-all hover:bg-gradient-to-r hover:from-orange-50 hover:to-slate-100 hover:text-orange-600">
+                    <Settings className="h-5 w-5" />
+                    <span className={cn("transition-opacity duration-300",
                       isSidebarCollapsed ? "opacity-0" : "opacity-100"
-                    )}>Partner Dashboard</span>
+                    )}>Settings</span>
                   </div>
                 </div>
               </div>
@@ -193,13 +182,8 @@ export default function Dashboard() {
               period={selectedPeriod}
             />
           )}
-          {currentView === "overview" && (
-            <ProgramOverview
-              period={selectedPeriod}
-            />
-          )}
           {currentView === "district" && (
-            <District
+            <HighPerformingSchoolsTeachers
               period={selectedPeriod}
             />
           )}

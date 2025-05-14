@@ -191,206 +191,283 @@ export function ProgramGoalsCoverage({ period }: ProgramGoalsCoverageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <div className="max-w-[1600px] mx-auto px-4 py-6 space-y-6">
-        {/* Header Section */}
-        <div className="bg-white rounded-2xl border-2 border-slate-200/60 shadow-xl overflow-hidden">
-          <div className="px-6 py-6 bg-gradient-to-r from-blue-500/10 via-orange-400/5 to-blue-500/10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-                  Program Goals & Coverage
-                </h1>
-                <p className="text-gray-600/90 text-base md:text-lg">
-                  Monitor strategic objectives and implementation coverage across districts
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-slate-100 hover:border-orange-200 transition-colors">
-                  <Target className="h-4 w-4 text-orange-600" />
-                  <span className="text-gray-800 font-medium whitespace-nowrap text-sm">Program Goals</span>
+    <>
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-[1600px] mx-auto px-4 py-6 space-y-6">
+          {/* Header Section */}
+          <div className="bg-white rounded-2xl border-2 border-slate-200/60 shadow-xl overflow-hidden">
+            <div className="px-6 py-6 bg-gradient-to-r from-blue-500/10 via-orange-400/5 to-blue-500/10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
+                    Program Goals & Coverage
+                  </h1>
+                  <p className="text-gray-600/90 text-base md:text-lg">
+                    Monitor strategic objectives and implementation coverage across districts
+                  </p>
                 </div>
-                <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-slate-100 hover:border-orange-200 transition-colors">
-                  <TrendingUp className="h-4 w-4 text-orange-600" />
-                  <span className="text-gray-800 font-medium whitespace-nowrap text-sm">Coverage Status</span>
+                <div className="flex flex-wrap gap-3">
+                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-slate-100 hover:border-orange-200 transition-colors">
+                    <Target className="h-4 w-4 text-orange-600" />
+                    <span className="text-gray-800 font-medium whitespace-nowrap text-sm">Program Goals</span>
+                  </div>
+                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border-2 border-slate-100 hover:border-orange-200 transition-colors">
+                    <TrendingUp className="h-4 w-4 text-orange-600" />
+                    <span className="text-gray-800 font-medium whitespace-nowrap text-sm">Coverage Status</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-          {/* Left Column - Map */}
-          <div className="xl:col-span-7">
-            <div className="bg-white rounded-2xl border-2 border-slate-200/60 shadow-xl h-full">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-2.5 bg-blue-50 rounded-xl">
-                      <Globe className="h-6 w-6 text-blue-600" />
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            {/* Left Column - Map */}
+            <div className="xl:col-span-7">
+              <div className="bg-white rounded-2xl border-2 border-slate-200/60 shadow-xl h-full">
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2.5 bg-blue-50 rounded-xl">
+                        <Globe className="h-6 w-6 text-blue-600" />
+                      </div>
+                      <h2 className="text-xl font-bold text-gray-900">District Coverage Status</h2>
                     </div>
-                    <h2 className="text-xl font-bold text-gray-900">District Coverage Status</h2>
+                  </div>
+                  <IndiaMap
+                    coveredDistricts={coverageData.coveredDistricts}
+                    onHover={(district) => console.log(district)}
+                  />
+                  
+                  {/* Summary Section */}
+                  <div className="mt-2 pt-3 border-t border-slate-100">
+                    <div className="grid grid-cols-2 gap-6">
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Coverage by Zone</h3>
+                        <div className="space-y-2">
+                          {["North", "South", "East", "West", "Central"].map(zone => {
+                            const districtsInZone = Object.entries(districtData).filter(([_, data]) => data.zone === zone);
+                            const coveredInZone = districtsInZone.filter(([_, data]) => data.covered).length;
+                            const totalInZone = districtsInZone.length;
+                            return (
+                              <div key={zone} className="flex items-center justify-between">
+                                <span className="text-sm text-gray-700 font-medium">{zone} Zone</span>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                    <div 
+                                      className="h-full bg-gradient-to-r from-blue-500 to-orange-500 rounded-full"
+                                      style={{ width: `${(coveredInZone / totalInZone) * 100}%` }}
+                                    ></div>
+                                  </div>
+                                  <span className="text-sm font-medium text-gray-800 min-w-[40px] text-right">
+                                    {coveredInZone}/{totalInZone}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">Coverage Insights</h3>
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2.5 text-sm text-gray-700">
+                            <div className="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                              <PieChartIcon className="h-3.5 w-3.5 text-orange-600" />
+                            </div>
+                            <span className="leading-tight">
+                              {Math.round((coverageData.coveredDistricts / coverageData.totalDistricts) * 100)}% overall district progress achieved
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2.5 text-sm text-gray-700">
+                            <div className="h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                              <School className="h-3.5 w-3.5 text-blue-600" />
+                            </div>
+                            <span className="leading-tight">
+                              {coverageData.coveredSchools.toLocaleString()} schools implementing the program
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2.5 text-sm text-gray-700">
+                            <div className="h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0">
+                              <Users className="h-3.5 w-3.5 text-slate-600" />
+                            </div>
+                            <span className="leading-tight">
+                              {coverageData.coveredStudents.toLocaleString()} students benefiting from the initiative
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2.5 text-sm text-gray-700">
+                            <div className="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                              <Target className="h-3.5 w-3.5 text-orange-600" />
+                            </div>
+                            <span className="leading-tight">
+                              {Math.round((Object.values(districtData).filter(d => d.covered).length / Object.values(districtData).length) * 100)}% implementation rate across regions
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <IndiaMap
-                  coveredDistricts={coverageData.coveredDistricts}
-                  onHover={(district) => console.log(district)}
-                />
-                
-                {/* Summary Section */}
-                <div className="mt-2 pt-3 border-t border-slate-100">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Coverage by Zone</h3>
-                      <div className="space-y-2">
-                        {["North", "South", "East", "West", "Central"].map(zone => {
-                          const districtsInZone = Object.entries(districtData).filter(([_, data]) => data.zone === zone);
-                          const coveredInZone = districtsInZone.filter(([_, data]) => data.covered).length;
-                          const totalInZone = districtsInZone.length;
-                          return (
-                            <div key={zone} className="flex items-center justify-between">
-                              <span className="text-sm text-gray-700 font-medium">{zone} Zone</span>
-                              <div className="flex items-center gap-3">
-                                <div className="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
-                                  <div 
-                                    className="h-full bg-gradient-to-r from-blue-500 to-orange-500 rounded-full"
-                                    style={{ width: `${(coveredInZone / totalInZone) * 100}%` }}
-                                  ></div>
-                                </div>
-                                <span className="text-sm font-medium text-gray-800 min-w-[40px] text-right">
-                                  {coveredInZone}/{totalInZone}
-                                </span>
+              </div>
+            </div>
+
+            {/* Right Column - Stats */}
+            <div className="xl:col-span-5 space-y-4">
+              <StatCard
+                title="District Coverage"
+                covered={coverageData.coveredDistricts}
+                total={coverageData.totalDistricts}
+                icon={Building2}
+              />
+              <StatCard
+                title="School Coverage"
+                covered={coverageData.coveredSchools}
+                total={coverageData.totalSchools}
+                icon={School}
+              />
+              <StatCard
+                title="Student Coverage"
+                covered={coverageData.coveredStudents}
+                total={coverageData.totalStudents}
+                icon={Users}
+              />
+            </div>
+          </div>
+
+          {/* Program Goals Cards */}
+          <div className="bg-white rounded-2xl border-2 border-slate-200/60 shadow-xl overflow-hidden">
+            <div className="p-6 border-b border-slate-100">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-blue-50 rounded-xl">
+                    <Target className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <h2 className="text-xl font-bold text-gray-900">Program Goals by Year</h2>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="px-3 py-1.5 bg-blue-50 rounded-lg text-blue-700 font-medium text-sm">
+                    FY 2026-2028
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="p-6 bg-gradient-to-b from-slate-50/50 to-white">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {programGoals.map((goal, index) => {
+                  // Alternate between blue and orange themes
+                  const isBlueTheme = index % 2 === 0;
+                  const cardTheme = isBlueTheme ? {
+                    bg: 'bg-blue-50/30',
+                    border: 'hover:border-blue-200',
+                    iconBg: 'bg-blue-100',
+                    iconText: 'text-blue-700',
+                    total: 'text-blue-700',
+                    gradient: 'from-blue-500 to-blue-400'
+                  } : {
+                    bg: 'bg-orange-50/30',
+                    border: 'hover:border-orange-200',
+                    iconBg: 'bg-orange-100',
+                    iconText: 'text-orange-700',
+                    total: 'text-orange-700',
+                    gradient: 'from-orange-500 to-orange-400'
+                  };
+
+                  return (
+                    <div 
+                      key={goal.slNo} 
+                      className={`${cardTheme.bg} rounded-xl p-6 border-2 border-slate-100 ${cardTheme.border} transition-all hover:shadow-lg`}
+                    >
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className={`h-8 w-8 rounded-full ${cardTheme.iconBg} flex items-center justify-center flex-shrink-0`}>
+                          <span className={`text-sm font-semibold ${cardTheme.iconText}`}>{goal.slNo}</span>
+                        </div>
+                        <h3 className="text-lg font-semibold text-gray-900">{goal.attribute}</h3>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between p-2 rounded-lg hover:bg-white/80 transition-colors">
+                          <span className="text-sm text-gray-600">FY26</span>
+                          <span className="text-sm font-medium text-gray-900">{goal.fy26.toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded-lg hover:bg-white/80 transition-colors">
+                          <span className="text-sm text-gray-600">FY27</span>
+                          <span className="text-sm font-medium text-gray-900">{goal.fy27.toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center justify-between p-2 rounded-lg hover:bg-white/80 transition-colors">
+                          <span className="text-sm text-gray-600">FY28</span>
+                          <span className="text-sm font-medium text-gray-900">{goal.fy28.toLocaleString()}</span>
+                        </div>
+                        <div className="pt-3 mt-3 border-t border-slate-200">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-gray-700">Total Target</span>
+                            <span className={`text-lg font-semibold ${cardTheme.total}`}>{goal.total.toLocaleString()}</span>
+                          </div>
+                          <div className="mt-3">
+                            <div className="h-[100px]">
+                              <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                  <Pie
+                                    data={[
+                                      { name: 'FY26', value: goal.fy26 },
+                                      { name: 'FY27', value: goal.fy27 },
+                                      { name: 'FY28', value: goal.fy28 }
+                                    ]}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={25}
+                                    outerRadius={35}
+                                    paddingAngle={2}
+                                    dataKey="value"
+                                  >
+                                    <Cell fill={isBlueTheme ? '#3b82f6' : '#f97316'} />
+                                    <Cell fill={isBlueTheme ? '#60a5fa' : '#fb923c'} />
+                                    <Cell fill={isBlueTheme ? '#93c5fd' : '#fdba74'} />
+                                  </Pie>
+                                  <Tooltip 
+                                    content={({ active, payload }) => {
+                                      if (active && payload && payload.length) {
+                                        const data = payload[0].payload;
+                                        return (
+                                          <div className="bg-white p-2 shadow-lg rounded-lg border border-slate-200 text-xs">
+                                            <p className="font-medium text-gray-900">{data.name}</p>
+                                            <p className={`font-medium ${cardTheme.total}`}>
+                                              {data.value.toLocaleString()} ({Math.round((data.value / goal.total) * 100)}%)
+                                            </p>
+                                          </div>
+                                        );
+                                      }
+                                      return null;
+                                    }}
+                                  />
+                                </PieChart>
+                              </ResponsiveContainer>
+                            </div>
+                            
+                            {/* Year-wise percentage labels */}
+                            <div className="grid grid-cols-3 gap-1 mt-2">
+                              <div className="text-center">
+                                <div className="text-xs text-gray-500">FY26</div>
+                                <div className="text-xs font-medium text-gray-700">{Math.round((goal.fy26 / goal.total) * 100)}%</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-xs text-gray-500">FY27</div>
+                                <div className="text-xs font-medium text-gray-700">{Math.round((goal.fy27 / goal.total) * 100)}%</div>
+                              </div>
+                              <div className="text-center">
+                                <div className="text-xs text-gray-500">FY28</div>
+                                <div className="text-xs font-medium text-gray-700">{Math.round((goal.fy28 / goal.total) * 100)}%</div>
                               </div>
                             </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">Coverage Insights</h3>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2.5 text-sm text-gray-700">
-                          <div className="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                            <PieChartIcon className="h-3.5 w-3.5 text-orange-600" />
                           </div>
-                          <span className="leading-tight">
-                            {Math.round((coverageData.coveredDistricts / coverageData.totalDistricts) * 100)}% overall district progress achieved
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2.5 text-sm text-gray-700">
-                          <div className="h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                            <School className="h-3.5 w-3.5 text-blue-600" />
-                          </div>
-                          <span className="leading-tight">
-                            {coverageData.coveredSchools.toLocaleString()} schools implementing the program
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2.5 text-sm text-gray-700">
-                          <div className="h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0">
-                            <Users className="h-3.5 w-3.5 text-slate-600" />
-                          </div>
-                          <span className="leading-tight">
-                            {coverageData.coveredStudents.toLocaleString()} students benefiting from the initiative
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2.5 text-sm text-gray-700">
-                          <div className="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                            <Target className="h-3.5 w-3.5 text-orange-600" />
-                          </div>
-                          <span className="leading-tight">
-                            {Math.round((Object.values(districtData).filter(d => d.covered).length / Object.values(districtData).length) * 100)}% implementation rate across regions
-                          </span>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             </div>
-          </div>
-
-          {/* Right Column - Stats */}
-          <div className="xl:col-span-5 space-y-4">
-            <StatCard
-              title="District Coverage"
-              covered={coverageData.coveredDistricts}
-              total={coverageData.totalDistricts}
-              icon={Building2}
-            />
-            <StatCard
-              title="School Coverage"
-              covered={coverageData.coveredSchools}
-              total={coverageData.totalSchools}
-              icon={School}
-            />
-            <StatCard
-              title="Student Coverage"
-              covered={coverageData.coveredStudents}
-              total={coverageData.totalStudents}
-              icon={Users}
-            />
-          </div>
-        </div>
-
-        {/* Program Goals Table */}
-        <div className="bg-white rounded-2xl border-2 border-slate-200/60 shadow-xl overflow-hidden">
-          <div className="p-6 border-b border-slate-100">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="p-2 bg-orange-50 rounded-xl">
-                  <Target className="h-5 w-5 text-orange-600" />
-                </div>
-                <h2 className="text-xl font-bold text-gray-900">Program Goals by Year</h2>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="px-3 py-1.5 bg-orange-50 rounded-lg text-orange-700 font-medium text-sm">
-                  FY 2026-2028
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-slate-50/50">
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800">Sl No</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800">Attribute</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800">FY26</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800">FY27</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800">FY28</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-800">Total</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {programGoals.map((goal) => (
-                  <tr key={goal.slNo} className="hover:bg-slate-50/30 transition-colors">
-                    <td className="px-6 py-3">
-                      <div className="h-6 w-6 rounded-full bg-orange-100 flex items-center justify-center">
-                        <span className="text-sm font-semibold text-orange-700">{goal.slNo}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-3">
-                      <span className="text-sm font-medium text-gray-900">{goal.attribute}</span>
-                    </td>
-                    <td className="px-6 py-3">
-                      <span className="text-sm text-gray-600">{goal.fy26.toLocaleString()}</span>
-                    </td>
-                    <td className="px-6 py-3">
-                      <span className="text-sm text-gray-600">{goal.fy27.toLocaleString()}</span>
-                    </td>
-                    <td className="px-6 py-3">
-                      <span className="text-sm text-gray-600">{goal.fy28.toLocaleString()}</span>
-                    </td>
-                    <td className="px-6 py-3">
-                      <span className="text-sm font-medium text-orange-700">{goal.total.toLocaleString()}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 } 

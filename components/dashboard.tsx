@@ -25,7 +25,7 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-slate-50 to-gray-50">
       {/* Header */}
-      <header className="sticky top-0 z-10 flex h-16 items-center justify-between bg-white/90 px-8 shadow-sm backdrop-blur-md border-b border-slate-200">
+      <header className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center justify-between bg-white/90 px-8 shadow-sm backdrop-blur-md border-b border-slate-200">
         {/* Left section */}
         <div className="flex items-center space-x-24">
           <div className="flex items-center gap-3">
@@ -116,18 +116,6 @@ export default function Dashboard() {
                   </a>
                   <a
                     href="#"
-                    onClick={() => setCurrentView("report")}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-all hover:bg-gradient-to-r hover:from-orange-50 hover:to-slate-100 hover:text-orange-600 ${
-                      currentView === "report" ? "bg-gradient-to-r from-orange-50 to-slate-100 text-orange-600 font-medium" : ""
-                    }`}
-                  >
-                    <FileText className="h-5 w-5" />
-                    <span className={cn("transition-opacity duration-300",
-                      isSidebarCollapsed ? "opacity-0" : "opacity-100"
-                    )}>Generate Report</span>
-                  </a>
-                  <a
-                    href="#"
                     onClick={() => setCurrentView("live-updates")}
                     className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-all hover:bg-gradient-to-r hover:from-orange-50 hover:to-slate-100 hover:text-orange-600 ${
                       currentView === "live-updates" ? "bg-gradient-to-r from-orange-50 to-slate-100 text-orange-600 font-medium" : ""
@@ -137,6 +125,18 @@ export default function Dashboard() {
                     <span className={cn("transition-opacity duration-300",
                       isSidebarCollapsed ? "opacity-0" : "opacity-100"
                     )}>Live Updates</span>
+                  </a>
+                  <a
+                    href="#"
+                    onClick={() => setCurrentView("report")}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-600 transition-all hover:bg-gradient-to-r hover:from-orange-50 hover:to-slate-100 hover:text-orange-600 ${
+                      currentView === "report" ? "bg-gradient-to-r from-orange-50 to-slate-100 text-orange-600 font-medium" : ""
+                    }`}
+                  >
+                    <FileText className="h-5 w-5" />
+                    <span className={cn("transition-opacity duration-300",
+                      isSidebarCollapsed ? "opacity-0" : "opacity-100"
+                    )}>Generate Report</span>
                   </a>
                 </div>
                 <div className="mt-auto flex-shrink-0">
@@ -169,7 +169,7 @@ export default function Dashboard() {
 
         {/* Main Content - Adjust margin to account for fixed sidebar */}
         <main className={cn(
-          "flex-1 overflow-auto p-6 bg-gradient-to-br from-gray-50 to-gray-100",
+          "flex-1 overflow-auto p-6 pt-24 bg-gradient-to-br from-gray-50 to-gray-100",
           isSidebarCollapsed ? "ml-0" : "ml-64"
         )}>
           {currentView === "goals" && (

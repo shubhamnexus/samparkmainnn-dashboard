@@ -235,16 +235,16 @@ export function ReportGenerator() {
   };
 
   return (
-    <div className="flex justify-center items-start min-h-[100vh] bg-gradient-to-br from-white via-orange-50 to-orange-100 py-10 px-2">
-      <div className="w-full max-w-5xl rounded-3xl shadow-2xl bg-white/90 border border-orange-100 p-8 md:p-12 space-y-10">
+    <div className="flex justify-center items-start min-h-[100vh] bg-gradient-to-br from-slate-50 to-gray-50 py-10 px-2">
+      <div className="w-full max-w-5xl rounded-3xl shadow-2xl bg-white/90 border border-slate-200 p-8 md:p-12 space-y-10">
         {/* Header Card */}
         <div className="mb-4">
-          <div className="rounded-2xl border-2 border-orange-200/60 bg-gradient-to-br from-orange-50 to-orange-100/60 px-8 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm">
+          <div className="rounded-2xl border-2 border-slate-200/60 bg-gradient-to-r from-blue-500/10 via-orange-400/5 to-blue-500/10 px-8 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-sm">
             <div className="space-y-2">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent drop-shadow-sm">
+              <h1 className="text-4xl font-bold text-gray-900">
                 Generate Report
               </h1>
-              <p className="text-orange-600/80 text-lg">
+              <p className="text-gray-600/90 text-lg">
                 Generate and export detailed block-wise reports for districts
               </p>
             </div>
@@ -252,9 +252,9 @@ export function ReportGenerator() {
         </div>
         {/* Filters Card */}
         <div>
-          <Card className="shadow-xl border-orange-200/80 rounded-2xl">
-            <CardHeader className="bg-white rounded-t-2xl border-b border-orange-100">
-              <CardTitle className="text-lg text-orange-700">Filters</CardTitle>
+          <Card className="shadow-xl border-slate-200/80 rounded-2xl">
+            <CardHeader className="bg-white rounded-t-2xl border-b border-slate-100">
+              <CardTitle className="text-lg text-gray-900">Filters</CardTitle>
               <CardDescription className="text-gray-500">Select the parameters for your report</CardDescription>
             </CardHeader>
             <CardContent>
@@ -266,12 +266,12 @@ export function ReportGenerator() {
                     setSelectedDistrict('');
                     setIsPreviewMode(false);
                   }}>
-                    <SelectTrigger className="rounded-lg border-orange-200 focus:ring-2 focus:ring-orange-400 bg-orange-50/40">
+                    <SelectTrigger className="rounded-lg border-slate-200 focus:ring-2 focus:ring-blue-400 bg-slate-50/40">
                       <SelectValue placeholder="Select State" />
                     </SelectTrigger>
                     <SelectContent className="rounded-lg shadow-lg">
                       {Object.entries(stateData).map(([id, state]) => (
-                        <SelectItem key={id} value={id} className="hover:bg-orange-50 focus:bg-orange-100">
+                        <SelectItem key={id} value={id} className="hover:bg-slate-50 focus:bg-slate-100">
                           {state.name}
                         </SelectItem>
                       ))}
@@ -285,12 +285,12 @@ export function ReportGenerator() {
                     onValueChange={setSelectedDistrict}
                     disabled={!selectedState || !stateData[selectedState]?.districts.length}
                   >
-                    <SelectTrigger className="rounded-lg border-orange-200 focus:ring-2 focus:ring-orange-400 bg-orange-50/40">
+                    <SelectTrigger className="rounded-lg border-slate-200 focus:ring-2 focus:ring-blue-400 bg-slate-50/40">
                       <SelectValue placeholder="Select District" />
                     </SelectTrigger>
                     <SelectContent className="rounded-lg shadow-lg">
                       {selectedState && stateData[selectedState].districts.map(district => (
-                        <SelectItem key={district.code} value={district.code} className="hover:bg-orange-50 focus:bg-orange-100">
+                        <SelectItem key={district.code} value={district.code} className="hover:bg-slate-50 focus:bg-slate-100">
                           {district.name}
                         </SelectItem>
                       ))}
@@ -301,7 +301,7 @@ export function ReportGenerator() {
               <div className="flex justify-end mt-8">
                 <Button
                   onClick={handleGenerate}
-                  className="gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition-all text-lg"
+                  className="gap-2 bg-gradient-to-r from-blue-500 to-orange-500 hover:from-blue-600 hover:to-orange-600 text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition-all text-lg"
                   disabled={!selectedState || !selectedDistrict || isLoading}
                 >
                   {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <FileText className="h-5 w-5" />}
@@ -314,20 +314,20 @@ export function ReportGenerator() {
         {/* Empty State */}
         {!isPreviewMode && (
           <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-            <FileText className="h-14 w-14 mb-4 text-orange-200" />
+            <FileText className="h-14 w-14 mb-4 text-slate-200" />
             <div className="text-xl font-semibold">Select state and district to generate a report</div>
           </div>
         )}
         {/* Report Table */}
         {isPreviewMode && reportData.length > 0 && (
           <div>
-            <Card className="shadow-2xl border-orange-200/80 rounded-2xl">
-              <CardHeader className="bg-gradient-to-r from-orange-50 to-white rounded-t-2xl border-b border-orange-100 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+            <Card className="shadow-2xl border-slate-200/80 rounded-2xl">
+              <CardHeader className="bg-gradient-to-r from-blue-500/10 via-orange-400/5 to-blue-500/10 rounded-t-2xl border-b border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                 <div>
-                  <CardTitle className="text-lg text-orange-700">Report Preview</CardTitle>
+                  <CardTitle className="text-lg text-gray-900">Report Preview</CardTitle>
                   <CardDescription className="text-gray-500">Block-wise data for the selected district</CardDescription>
                 </div>
-                <Button onClick={exportToExcel} variant="outline" className="gap-2 border-orange-400 text-orange-700 hover:bg-orange-50 hover:text-orange-900 font-semibold rounded-lg">
+                <Button onClick={exportToExcel} variant="outline" className="gap-2 border-slate-200 text-gray-700 hover:bg-slate-50 hover:text-gray-900 font-semibold rounded-lg">
                   <Download className="h-5 w-5" />
                   Export to Excel
                 </Button>
@@ -335,21 +335,21 @@ export function ReportGenerator() {
               <CardContent>
                 <div className="rounded-xl border overflow-x-auto bg-white">
                   <Table className="min-w-[700px]">
-                    <TableHeader className="sticky top-0 z-10 bg-orange-100/80">
+                    <TableHeader className="sticky top-0 z-10 bg-gradient-to-r from-blue-100/60 via-orange-100/40 to-blue-50/60">
                       <TableRow>
-                        <TableHead className="text-orange-700 font-bold">SL No</TableHead>
-                        <TableHead className="text-orange-700 font-bold">State</TableHead>
-                        <TableHead className="text-orange-700 font-bold">District</TableHead>
-                        <TableHead className="text-orange-700 font-bold">Block Code</TableHead>
-                        <TableHead className="text-orange-700 font-bold">Block Name</TableHead>
-                        <TableHead className="text-orange-700 font-bold">No of Schools</TableHead>
-                        <TableHead className="text-orange-700 font-bold">No of Students</TableHead>
-                        <TableHead className="text-orange-700 font-bold">No of Teachers</TableHead>
+                        <TableHead className="text-gray-800 font-bold">SL No</TableHead>
+                        <TableHead className="text-gray-800 font-bold">State</TableHead>
+                        <TableHead className="text-gray-800 font-bold">District</TableHead>
+                        <TableHead className="text-gray-800 font-bold">Block Code</TableHead>
+                        <TableHead className="text-gray-800 font-bold">Block Name</TableHead>
+                        <TableHead className="text-gray-800 font-bold">No of Schools</TableHead>
+                        <TableHead className="text-gray-800 font-bold">No of Students</TableHead>
+                        <TableHead className="text-gray-800 font-bold">No of Teachers</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {reportData.map((row, idx) => (
-                        <TableRow key={row.code} className={idx % 2 === 0 ? 'bg-orange-50/30' : ''}>
+                        <TableRow key={row.code} className={idx % 2 === 0 ? 'bg-slate-50/30' : ''}>
                           <TableCell className="font-semibold text-gray-700">{idx + 1}</TableCell>
                           <TableCell className="text-gray-600">{stateData[selectedState]?.name}</TableCell>
                           <TableCell className="text-gray-600">{stateData[selectedState]?.districts.find(d => d.code === selectedDistrict)?.name}</TableCell>

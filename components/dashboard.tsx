@@ -5,7 +5,7 @@ import { LayoutDashboard, BarChart2, PieChart, FileText, Settings, ChevronLeft, 
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
 import { ProgramProgress } from "./ProgramProgress"
-import { LiveUpdates } from "./LiveUpdates"
+import LiveFeed from "./LiveFeed"
 import { HighPerformingSchoolsTeachers } from "@/components/HighPerformingSchoolsTeachers"
 import { ReportGenerator } from "./ReportGenerator"
 import { ProgramGoalsCoverage } from "./ProgramGoalsCoverage"
@@ -124,7 +124,7 @@ export default function Dashboard() {
                     <Activity className="h-5 w-5" />
                     <span className={cn("transition-opacity duration-300",
                       isSidebarCollapsed ? "opacity-0" : "opacity-100"
-                    )}>Live Updates</span>
+                    )}>Live Feed</span>
                   </a>
                   <a
                     href="#"
@@ -190,7 +190,7 @@ export default function Dashboard() {
           {currentView === "report" && (
             <ReportGenerator />
           )}
-          {currentView === "live-updates" && <LiveUpdates />}
+          {currentView === "live-updates" && <LiveFeed />}
         </main>
       </div>
     </div>

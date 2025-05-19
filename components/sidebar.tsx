@@ -38,7 +38,7 @@ export function Sidebar() {
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-600 transition-all hover:bg-gray-100"
         >
           <Activity className="h-5 w-5" />
-          <span>Live Updates</span>
+          <span>Live Feed</span>
         </Link>
       </nav>
       

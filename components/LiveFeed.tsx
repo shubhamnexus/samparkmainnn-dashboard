@@ -1,13 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Calendar, GraduationCap, Users, Briefcase, MapPin, Clock, ChevronDown, ChevronUp } from "lucide-react"
+import { Calendar, GraduationCap, Users, Briefcase, MapPin, Clock, ChevronDown, ChevronUp, Tv, BookOpen } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { motion } from "framer-motion"
 
-type ActivityType = "school-visit" | "training" | "partner-meeting";
+type ActivityType = "smtv-installation" | "teacher-training" | "meeting" | "school-visit" | "lessons";
 
 interface Activity {
   id: number;
@@ -17,6 +17,7 @@ interface Activity {
   time: string;
   location: string;
   description: string;
+  percentage?: number;
   user: {
     name: string;
     role: string;
@@ -24,92 +25,81 @@ interface Activity {
   };
 }
 
-// Sample activity data with Spark user information
+// Sample activity data with metrics
 const activities: Activity[] = [
   {
     id: 1,
-    type: "school-visit",
-    title: "Lincoln High School Visit",
-    date: "2025-05-22",
+    type: "smtv-installation",
+    title: "SMTV Installation Progress",
+    date: "2024-03-22",
     time: "09:00 - 11:30",
-    location: "Lincoln High School",
-    description: "Presentation to senior students about career opportunities",
+    location: "District Office",
+    description: "Current SMTV installation progress across schools",
+    percentage: 75,
     user: {
-      name: "Spark",
-      role: "Education Liaison",
+      name: "Tech Team",
+      role: "Installation Coordinator",
       avatar: "/abstract-letter-s.png",
     },
   },
   {
     id: 2,
-    type: "training",
-    title: "New Staff Onboarding",
-    date: "2025-05-20",
+    type: "teacher-training",
+    title: "Teacher Training Completion",
+    date: "2024-03-20",
     time: "13:00 - 16:00",
-    location: "Main Office, Room 302",
-    description: "Training session for new employees on company policies",
+    location: "Training Center",
+    description: "Progress of teacher training programs",
+    percentage: 85,
     user: {
-      name: "Spark",
+      name: "Training Team",
       role: "Training Coordinator",
       avatar: "/abstract-letter-s.png",
     },
   },
   {
     id: 3,
-    type: "partner-meeting",
-    title: "Quarterly Review with TechPartners Inc.",
-    date: "2025-05-19",
+    type: "meeting",
+    title: "Monthly Progress Review",
+    date: "2024-03-19",
     time: "10:00 - 12:00",
-    location: "Virtual Meeting",
-    description: "Discussing Q2 goals and partnership opportunities",
+    location: "Conference Room",
+    description: "Review of all program metrics and progress",
     user: {
-      name: "Spark",
-      role: "Partnership Manager",
+      name: "Management Team",
+      role: "Program Manager",
       avatar: "/abstract-letter-s.png",
     },
   },
   {
     id: 4,
     type: "school-visit",
-    title: "Washington Elementary Career Day",
-    date: "2025-05-25",
+    title: "School Implementation Check",
+    date: "2024-03-25",
     time: "10:00 - 14:00",
-    location: "Washington Elementary School",
-    description: "Interactive sessions with 5th and 6th graders",
+    location: "City Schools",
+    description: "On-site verification of program implementation",
     user: {
-      name: "Spark",
-      role: "Education Liaison",
+      name: "Field Team",
+      role: "Implementation Specialist",
       avatar: "/abstract-letter-s.png",
     },
   },
   {
     id: 5,
-    type: "training",
-    title: "Leadership Workshop",
-    date: "2025-05-27",
+    type: "lessons",
+    title: "Schools with 5+ Lessons",
+    date: "2024-03-27",
     time: "09:00 - 17:00",
-    location: "Conference Center",
-    description: "Advanced leadership skills for department managers",
+    location: "All Schools",
+    description: "Progress of schools implementing 5 or more lessons",
+    percentage: 65,
     user: {
-      name: "Spark",
-      role: "Training Specialist",
+      name: "Education Team",
+      role: "Curriculum Specialist",
       avatar: "/abstract-letter-s.png",
     },
-  },
-  {
-    id: 6,
-    type: "partner-meeting",
-    title: "New Partnership Discussion",
-    date: "2025-05-30",
-    time: "14:00 - 15:30",
-    location: "Partner Office",
-    description: "Initial meeting with potential new partner",
-    user: {
-      name: "Spark",
-      role: "Business Developer",
-      avatar: "/abstract-letter-s.png",
-    },
-  },
+  }
 ]
 
 // Sort activities by date
@@ -127,12 +117,16 @@ export default function LiveFeed() {
   // Get icon based on activity type
   const getActivityIcon = (type: ActivityType) => {
     switch (type) {
-      case "school-visit":
-        return <GraduationCap className="h-6 w-6" />
-      case "training":
+      case "smtv-installation":
+        return <Tv className="h-6 w-6" />
+      case "teacher-training":
         return <Users className="h-6 w-6" />
-      case "partner-meeting":
+      case "meeting":
         return <Briefcase className="h-6 w-6" />
+      case "school-visit":
+        return <MapPin className="h-6 w-6" />
+      case "lessons":
+        return <BookOpen className="h-6 w-6" />
       default:
         return <Calendar className="h-6 w-6" />
     }
@@ -141,12 +135,16 @@ export default function LiveFeed() {
   // Get color class based on activity type
   const getActivityColorClass = (type: ActivityType) => {
     switch (type) {
-      case "school-visit":
+      case "smtv-installation":
         return "bg-gradient-to-br from-blue-500 to-blue-600 text-white"
-      case "training":
+      case "teacher-training":
         return "bg-gradient-to-br from-violet-500 to-violet-600 text-white"
-      case "partner-meeting":
+      case "meeting":
         return "bg-gradient-to-br from-emerald-500 to-emerald-600 text-white"
+      case "school-visit":
+        return "bg-gradient-to-br from-orange-500 to-orange-600 text-white"
+      case "lessons":
+        return "bg-gradient-to-br from-purple-500 to-purple-600 text-white"
       default:
         return "bg-gradient-to-br from-gray-500 to-gray-600 text-white"
     }
@@ -155,12 +153,16 @@ export default function LiveFeed() {
   // Get border color class based on activity type
   const getActivityBorderClass = (type: ActivityType) => {
     switch (type) {
-      case "school-visit":
+      case "smtv-installation":
         return "border-l-4 border-blue-500 hover:border-blue-600"
-      case "training":
+      case "teacher-training":
         return "border-l-4 border-violet-500 hover:border-violet-600"
-      case "partner-meeting":
+      case "meeting":
         return "border-l-4 border-emerald-500 hover:border-emerald-600"
+      case "school-visit":
+        return "border-l-4 border-orange-500 hover:border-orange-600"
+      case "lessons":
+        return "border-l-4 border-purple-500 hover:border-purple-600"
       default:
         return "border-l-4 border-gray-500 hover:border-gray-600"
     }
@@ -217,13 +219,26 @@ export default function LiveFeed() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <Badge variant="secondary" className="font-medium bg-gray-50/80 backdrop-blur-sm text-gray-700 border-gray-200">
+                        {activity.type === "smtv-installation" && "SMTV Installation"}
+                        {activity.type === "teacher-training" && "Teacher Training"}
+                        {activity.type === "meeting" && "Meeting"}
                         {activity.type === "school-visit" && "School Visit"}
-                        {activity.type === "training" && "Training Session"}
-                        {activity.type === "partner-meeting" && "Partner Meeting"}
+                        {activity.type === "lessons" && "Lessons Progress"}
                       </Badge>
                       <span className="text-sm text-gray-500">{formatDate(activity.date)}</span>
                     </div>
                     <h3 className="text-base font-medium text-gray-800">{activity.title}</h3>
+                    {activity.percentage && (
+                      <div className="mt-2">
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div 
+                            className="h-2.5 rounded-full bg-blue-600" 
+                            style={{ width: `${activity.percentage}%` }}
+                          ></div>
+                        </div>
+                        <span className="text-sm text-gray-600 mt-1 block">{activity.percentage}% Complete</span>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3">
